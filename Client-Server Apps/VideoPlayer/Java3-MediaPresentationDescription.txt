@@ -1,0 +1,27 @@
+JAVA esperienza 3: Progettazione protocollo comunicazione Server-Client
+
+Si progetti il formato di un file (MDP) che descrive il contenuto video del server, ovvero: 
+- elenco dei video disponibili
+- livelli di qualità/rate di ogni video
+
+Si sviluppi quindi un’applicazione client-server su socket TCP che implementi la seguente procedura: 
+1. Il server instanzia un socket TCP su una porta prefissata (es: 7777) e si mette in attesa di una richiesta di connessione da parte di un client
+2. Il client apre il socket verso il server
+3. Il client richiede l’invio del file descrittore (MDP)
+4. Il server invia il file MDP al client
+5. Il client, ricevuto il file, lo processa e determina quali video sono disponibili, e con quale rate/qualità. 
+6. Il client mostra queste informazioni all’utente che può scegliere quale video richiedere e con quale rate.
+7. Il client legge l’input da tastiera e avvia un thread per inviare richieste di frame al server e uno per ricevere. 
+8. Il client inizia a chiedere i frame successivi al server, attendendo un tempo prefissato (es: 30 ms) tra una richiesta e la successiva. 
+9. Il server avvia due thread, uno per ricevere le richieste di frame, e uno per inviare i frame richiesti al client.
+10. Quando il server riceve la richiesta per il frame X del video Y alla qualità Z, legge il file corrispondente dal disco e lo invia al client. 
+11. Quando il client riceve un frame, lo passa al processo player per la riproduzione del video. 
+
+
+Possibile estensione
+——————————
+1. Progettare un protocollo che consenta a client e server di stimare il throughput della connessione e di adattare il rate del video da trasferire automaticamente. In questo caso, il client specifica solo il frame desiderato (es: frame X) e il video (es.: Y), ma non la qualità: in base alla stima del throughput, il server (o il client) sceglie automaticamente la qualità massima sostenibile. 
+
+2. Pensare a un’evoluzione del protocollo che consenta di rivedere la stima del throughput (e quindi, di adattare la qualità del video) dinamicamente, durante il trasferimento dei frame. 
+
+

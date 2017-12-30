@@ -1,0 +1,26 @@
+JAVA esperienza 2: FileTransfer
+
+Si scriva un programma client-server su socket TCP che implementi un trasferimento file. Si consiglia di strutturare il programma come segue:
+1. Il server instanzia un socket TCP su una porta prefissata (es: 7777) e si mette in attesa di una richiesta di connessione da parte di un client
+2. Il client apre il socket verso il server
+
+A questo punto, sia il server che il client devono avviare due thread ciascuno.
+
+Il Client crea un primo thread che legge una stringa da tastiera e la invia sul socket TCP al server, e un secondo thread che riceve, byte per byte, il file trasmesso dal server e, una volta ultimata la ricezione, salva il file in locale.
+
+Il Server crea un primo thread che riceve le stringhe di richiesta file dal Client e un secondo thread che recupera il file richiesto e lo invia sul socket al client. 
+
+Si noti quanto segue:
+1) aprendo un solo socket, l’invio dei file sarà sequenziale. 
+2) è necessario definire un protocollo per indicare al client l’inizio e la fine di un file. Una possibilità è di usare un formato [LENGTH DATA] in cui i primi k byte sono utilizzati per indicare la dimensione del campo DATA in byte (questo limita la dimensione massima del file da trasferire a 2^k byte)
+3) Per leggere un file da sistema e memorizzarlo come array di byte si possono usare le seguenti istruzioni
+
+// Si crea un oggetto f che punta al file “filepath”
+File f=new File(filepath);
+// Si crea un array di byte di lunghezza pari a quella del file
+byte[] buf = new byte[(int)f.length()];
+// Si crea un oggetto “fis” di tipo FileInputStream che è associato al file 
+FileInputStream fis = new FileInputStream(f);
+// Si carica il buffer buf con i primi “buf.length” byte del file, cioè tutto il file 
+fis.read(buf); 
+// A questo punto, “buf” è un array di byte che contiene i byte del file
