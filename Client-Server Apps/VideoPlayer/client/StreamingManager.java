@@ -102,9 +102,9 @@ public class StreamingManager implements IManager {
     */
 	public void nextFrame() {
 		// Passa il frame al player (attenzione: cosa succede la prima volta che viene chiamato nextFrame()?)
-    player.receiveFrame(frameData);
+    	player.receiveFrame(frameData);
 		// Cosa succede se ho già scaricato tutti i frame?
-    
+    	
 
 		int level = 8;
 		if (bandwidth > 0) {
@@ -112,17 +112,24 @@ public class StreamingManager implements IManager {
 		}
 
 		// Trova il frame scelto nella lista frames e imposto toDownload e frameData
+		ArrayList<IFrame> frame = frames.get(level);
+		toDownload = frame.size();
+		frameData = new byte[toDownload];
     
-    
+    	//primo frame?
         // Stampa le info sul frame
-		//System.out.println("Segment " + segment + ": level " + level	+ ", quality " + quality);
+        IFrame first_frame = frame.get(toDownload);
+        double quality = first_frame.getQuality();
+		System.out.println("Segment " + segment + ": level " + level	+ ", quality " + quality);
 
 		// Manda il nome del file che contiene il frame scelto al server 
-		
+		String name = first_frame.getName();
+
 		// Aggiunge un carattere di controllo e converte la stringa in byte
-		//name = name + "\n";
-		//bytes[] packet = name.getBytes(StandardCharsets.UTF_16);
+		name = name + "\n";
+		bytes[] packet = name.getBytes(StandardCharsets.UTF_16);
 
         // Invia il pacchetto al server
+        
 	}
 }
